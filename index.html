@@ -57,15 +57,55 @@
        </div>
        
      <div id="overlay" class="overlay">
+        <div class="overlay-fox">
+            <img class="img-fox" src="images/FoxSpriteSheet2.png" id="fox" alt="fox" >
+        </div>
+        <div class="overlay-character">
+            <div class="character" facing="down" walking="true">
+                <div class="shadow pixel-art"></div>
+                <div class="character_spritesheet pixel-art"></div>
+            </div>
+        </div>
         <div class="overlay-content">
-            <!-- Content for the overlay pop-up -->
             <p id="dialogue" class="typewriter"></p>
         </div>
-    <p class="Guide">Press E to interact with the fox!</p>
+        <div class="units">
+            <div class="unit1" id="unit1">Unit 1
+            </div>
+            <div class="unit1Modal">
+                <button class="close-units">Close</button>
+                <p class="titleStatement1">Unit 1 INTRODUCTION TO STS</p>
+                <div class="statement1">
+                    <ol>
+                        <li><strong> Nature of Science:</strong> Explores the fundamental principles and methodologies of scientific inquiry, including observation, experimentation, and theory-building.</li>
+                        <li><strong> Nature of Mathematics:</strong> Discusses the role of mathematics in scientific exploration, emphasizing its use as a language for describing natural phenomena and solving practical problems.</li>
+                        <li><strong> Nature of Technology:</strong> Examines the definition and characteristics of technology, highlighting its role as a tool for solving problems and enhancing human capabilities.</li>
+                        <li><strong> The Physical Setting: </strong>  Investigates the physical environment in which science and technology operate, including the Earth's geology, atmosphere, and climate.</li>
+                        <li><strong> The Living Environment:</strong> Explores the interactions between living organisms and their environments, focusing on ecosystems, biodiversity, and ecological relationships.</li>
+                        <li><strong> The Human Organization: </strong>  Studies the social structures and institutions that shape human interactions with science, technology, and the environment, including governance, economics, and cultural beliefs.</li>
+                    </ol>
+                    <div id="peekaboo"></div>
+                </div>
+            </div>
+            <div class="unit2">Unit 2
+                <div class="unit2Modal">
+                    <!-- Modal content for Unit 2 -->
+                    <p>This is the content of the modal for Unit 2</p>
+                </div>
+            </div>
+            <div class="unit3">Unit 3
+                <div class="unit3Modal">
+                    <!-- Modal content for Unit 3 -->
+                    <p>This is the content of the modal for Unit 3</p>
+                </div>
+            </div>
+        </div>
+        
+        <p class="Guide">Press E to interact with the fox!</p>
         <button id="backButton">
             Close
         </button>
-    </div>
+     </div>
 
        <div class="dpad">
           <div class="DemoDirectionUI flex-center">
@@ -140,7 +180,42 @@
 
     // Your game logic script goes here
     var character = document.querySelector(".character");
-    // More game logic code...
+    
+    document.querySelector('.unit1').addEventListener('click', function() {
+    document.querySelector('.unit1Modal').style.display = 'block';
+});
+
+document.querySelector('.unit2').addEventListener('click', function() {
+    document.querySelector('.unit2Modal').style.display = 'block';
+});
+
+document.querySelector('.unit3').addEventListener('click', function() {
+    document.querySelector('.unit3Modal').style.display = 'block';
+});
+
+document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('close-units')) {
+        // Find the parent modal container and hide it
+        let modal = event.target.closest('.unit1Modal, .unit2Modal, .unit3Modal');
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    }
+});
+
+function yScrollHandler(){
+    var win = document.getElementById("peekaboo");
+    if((window.pageYOffset + window.innerHeight) >= document.body.offsetHeight){
+	//win.style.webkitTransition = "right 0.7s ease-in-out 0s";
+	win.style.transition = "right 0.7s ease-in-out 0s";
+	win.style.right = "0px";
+    } else {
+	win.style.transition = "right 0.7s ease-in-out 0s";
+	win.style.right = "-90%";
+    }
+}
+window.onscroll = yScrollHandler;
+
 </script> 
 
 </body>
@@ -228,20 +303,17 @@
     }
 
     const dialogueMessagesFox = [
-    "Click Close to Go Back",
-    "Character: Hello, Mr. Fox! What brings you here today?",
-    "Fox: Ah, greetings, young traveler! I've come to share a tale of the old and the new, of nature's wonders and humanity's advancements.",
-    "Character: That sounds intriguing! Tell me more.",
+    "Press Close to Go Back",
+    "Character: Greetings, Fox! Have you delved into the lore of Science, Technology, and Society?",
+    "Fox: Ah, yes! The tales that weave together the threads of our world's marvels.",
+    "Character: Enlighten me with one such tale.",
     "Fox: You see, in the ancient forests where I roam, technology was simple yet harmonious with the land. But as humans expanded their reach, their inventions began to reshape the world.",
     "Character: Like the sprawling cities and bustling factories?",
-    "Fox: Indeed. While these innovations brought convenience and progress, they also altered the balance of nature. Trees fell, rivers diverted, and animals lost their homes.",
-    "Character: It's a reminder of the delicate relationship between humans and the environment.",
-    "Fox: Precisely. Yet, amidst the challenges, there's hope. Science and technology can be harnessed for the greater good, to restore what has been lost and protect what remains.",
-    "Character: So, it's not just about progress, but also about responsibility?",
-    "Fox: Exactly! As stewards of this world, it's our duty to tread lightly, to innovate with mindfulness, and to cherish the wonders of nature for generations to come.",
-    "Character: Thank you for sharing your wisdom, Mr. Fox. I'll remember to embrace both the marvels of technology and the beauty of the natural world.",
-    "Fox: Farewell, young traveler. May your journey be guided by the harmony of science, technology, and society."
-]
+    "Fox: Precisely. It's an imbalance that threatens to disrupt the delicate harmony of nature. Yet, amidst these adversities, there lies hope. By embracing the wisdom found in the annals of science, technology, and society, we can forge a path towards balance and understanding.",
+    "Character: A journey through adversity towards enlightenment. Your words are profound, Fox.",
+    "Fox: Indeed, young seeker. Let us embark on this journey together, guided by the light of knowledge and the wisdom of ages past. You can explore the resources below to navigate such challenges and avoid the pitfalls of imbalance."
+];
+
 
 let currentMessageIndex = 0;
 const dialogueElement = document.getElementById('dialogue');
