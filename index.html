@@ -5,16 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nature's Nexus: Exploring the Bonds Between Science and Society</title>
     <link rel="stylesheet" type="text/css" href="styling.css">
+    <!--Fonts-->
 </head>
 <body>
-    <!--
+    
     <div class="landing-page">
         <img id="background-landing" src="images/Purple and Pink Pixel Retro Nostalgia Fever Fandom Game Presentation.png">
         <img id="button-start" src="images/LetsStart.png">
     </div>
--->
 
-<div id="game-container"> <!--style="display: none;-->
+
+<div id="game-container" style="display: none";>
   <div class="frame">
     <div class="corner_topleft"></div>
     <div class="corner_topright"></div>
@@ -29,13 +30,23 @@
              <div class="character_spritesheet pixel-art"></div>
           </div>
           <div class="spriteFox">
-            <img class="Fox_spritesheet" src="images/FoxSpriteSheet2.png" id="fox" alt="fox">
+            <img class="Fox_spritesheet" src="images/FoxSpriteSheet2.png" id="fox" alt="fox" >
         </div>
-        <!--Dialogue for the fox and character pop up-->
-        <div class="dialogue-box" id="dialogueBox" alt="dialogue" style="display: none;">
-            <img src="images/FoxSpriteSheet2.png">
+        <div class="questionMark">
+            <img class="Mark" src="images/FoxSpriteSheet2.png" id="quest" alt="quest">
         </div>
        </div>
+       
+       <div id="overlay" class="overlay">
+        <div class="overlay-content">
+            <!-- Content for the overlay pop-up -->
+            <p id="dialogue" class="typewriter"></p>
+        </div>
+        <p class="Guide">Press E to interact with the fox!</p>
+        <button id="backButton">
+            Close
+        </button>
+    </div>
 
        <div class="dpad">
           <div class="DemoDirectionUI flex-center">
@@ -98,7 +109,6 @@
     </div>
  </div>
 </div>
-<!--
 <script>
     // Add event listener to the start button
     document.getElementById("button-start").addEventListener("click", function() {
@@ -112,232 +122,199 @@
     // Your game logic script goes here
     var character = document.querySelector(".character");
     // More game logic code...
-</script> -->
+</script> 
 
 </body>
 <script>
 
-var character = document.querySelector(".character");
-var map = document.querySelector(".map");
-
-//start in the middle of the map
-
-var x = 90;
-var y = 34;
-
-var held_directions = []; //State of which arrow keys we are holding down
-var speed = 1; //How fast the character moves in pixels per frame
-
-// Update the speed if Shift key is pressed
-document.addEventListener("keydown", (e) => {
-    if (e.shiftKey) {
-        speed = 2; // Change speed to 2 if Shift key is pressed
+    var character = document.querySelector(".character");
+    var map = document.querySelector(".map");
+    
+    //start in the middle of the map
+    var x = 90;
+    var y = 34;
+    
+    var held_directions = []; //State of which arrow keys we are holding down
+    var speed = 1; //How fast the character moves in pixels per frame
+    
+    // Update the speed if Shift key is pressed
+    document.addEventListener("keydown", (e) => {
+        if (e.shiftKey) {
+            speed = 2; // Change speed to 2 if Shift key is pressed
+        }
+    });
+    
+    document.addEventListener("keyup", (e) => {
+        if (e.key === "Shift") {
+            speed = 1; // Reset speed to 1 when Shift key is released
+        }
+    });
+    
+    const placeCharacter = () => {
+        var pixelSize = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--pixel-size'));
+    
+        const held_direction = held_directions[0];
+        if (held_direction) {
+          if (held_direction === directions.right) {x += speed;}
+          if (held_direction === directions.left) {x -= speed;}
+          if (held_direction === directions.down) {y += speed;}
+          if (held_direction === directions.up) {y -= speed;}
+          character.setAttribute("facing", held_direction);
+       }
+        character.setAttribute("walking", held_direction ? "true" : "false");
+    
+        // Limits (gives the illusion of walls)
+        var leftLimit = -8;
+        var rightLimit = (16 * 11) + 8;
+        var topLimit = -8 + 32;
+        var bottomLimit = (16 * 7);
+        if (x < leftLimit) { x = leftLimit; }
+        if (x > rightLimit) { x = rightLimit; }
+        if (y < topLimit) { y = topLimit; }
+        if (y > bottomLimit) { y = bottomLimit; }
+    
+        var camera_left = pixelSize * 66;
+        var camera_top = pixelSize * 42;
+    
+       map.style.transform = `translate3d( ${-x*pixelSize+camera_left}px, ${-y*pixelSize+camera_top}px, 0 )`;
+       character.style.transform = `translate3d( ${x*pixelSize}px, ${y*pixelSize}px, 0 )`;  
     }
-});
-
-document.addEventListener("keyup", (e) => {
-    if (e.key === "Shift") {
-        speed = 1; // Reset speed to 1 when Shift key is released
-    }
-});
-
-const detectCollision = () => {
+    
+    const showOverlay = () => {
+    // Calculate the distance between the character and the fox
     const characterRect = character.getBoundingClientRect();
     const foxRect = document.getElementById('fox').getBoundingClientRect();
-
-    // Check for collision between character and fox
-    if (characterRect.right > foxRect.left &&
-        characterRect.left < foxRect.right &&
-        characterRect.bottom > foxRect.top &&
-        characterRect.top < foxRect.bottom) {
-        
-        // Check if the dialogue box is already displayed
-        if (!document.getElementById('dialogueBox')) {
-            // Create a dialogue box element
-            const dialogueBox = document.createElement('div');
-            dialogueBox.id = 'dialogueBox';
-            dialogueBox.classList.add('dialogue-box');
-            
-            // Append the dialogue box to the game container
-            document.getElementById('game-container').appendChild(dialogueBox);
-
-            // Show the dialogue box
-            dialogueBox.style.display = "block";
-
-            // Display an alert when the character encounters a fox
-            alert("Fox encountered!");
-        }
+    const distance = Math.sqrt(Math.pow(characterRect.x - foxRect.x, 2) + Math.pow(characterRect.y - foxRect.y, 2));
+    
+    // Define a threshold for interaction (adjust as needed)
+    const interactionThreshold = 100; // Adjust this value as needed
+    
+    // Check if the distance is less than the interaction threshold
+    if (distance < interactionThreshold) {
+        // Show the overlay
+        document.getElementById("overlay").style.display = "block";
     }
-};
-
-
-
-const placeCharacter = () => {
-   
-    var pixelSize = parseInt(
-        getComputedStyle(document.documentElement).getPropertyValue('--pixel-size')
-    );
-
-    const held_direction = held_directions[0];
-    if (held_direction) {
-      if (held_direction === directions.right) {x += speed;}
-      if (held_direction === directions.left) {x -= speed;}
-      if (held_direction === directions.down) {y += speed;}
-      if (held_direction === directions.up) {y -= speed;}
-      character.setAttribute("facing", held_direction);
-   }
-    character.setAttribute("walking", held_direction ? "true" : "false");
-
-    // Limits (gives the illusion of walls)
-    var leftLimit = -8;
-    var rightLimit = (16 * 11) + 8;
-    var topLimit = -8 + 32;
-    var bottomLimit = (16 * 7);
-    if (x < leftLimit) { x = leftLimit; }
-    if (x > rightLimit) { x = rightLimit; }
-    if (y < topLimit) { y = topLimit; }
-    if (y > bottomLimit) { y = bottomLimit; }
-
-    var camera_left = pixelSize * 66;
-    var camera_top = pixelSize * 42;
-
-   map.style.transform = `translate3d( ${-x*pixelSize+camera_left}px, ${-y*pixelSize+camera_top}px, 0 )`;
-   character.style.transform = `translate3d( ${x*pixelSize}px, ${y*pixelSize}px, 0 )`;  
+    // If the distance is greater than the threshold, do nothing
 }
 
-
-// Set up the game loop
-const step = () => {
-    placeCharacter();
-    detectCollision(); // Call collision detection
-    window.requestAnimationFrame(() => {
-        step();
-    })
-}
-step(); // Kick off the first step
-
-
-
-/* Direction key state */
-const directions = {
-    up: "up",
-    down: "down",
-    left: "left",
-    right: "right",
-}
-
-const keys = {
-    38: directions.up,   // Arrow Up
-    87: directions.up,   // W key
-    37: directions.left, // Arrow Left
-    65: directions.left, // A key
-    40: directions.down, // Arrow Down
-    83: directions.down, // S key
-    39: directions.right,// Arrow Right
-    68: directions.right // D key
-}
-
-document.addEventListener("keydown", (e) => {
-    var dir = keys[e.which];
-    if (dir && held_directions.indexOf(dir) === -1) {
-        held_directions.unshift(dir)
+    // Function to hide the overlay
+    const hideOverlay = () => {
+    document.getElementById("overlay").style.display = "none";
     }
-})
 
-document.addEventListener("keyup", (e) => {
-    var dir = keys[e.which];
-    var index = held_directions.indexOf(dir);
-    if (index > -1) {
-        held_directions.splice(index, 1)
+    const goBack = () => {
+    // Hide the overlay
+    hideOverlay();
+    // Implement logic to allow the player to be controlled again
     }
-});
 
-var defaultThreshold = 50;
+    const dialogueMessagesFox = [
+    "Click Close to Go Back",
+    "Character: Hello, Mr. Fox! What brings you here today?",
+    "Fox: Ah, greetings, young traveler! I've come to share a tale of the old and the new, of nature's wonders and humanity's advancements.",
+    "Character: That sounds intriguing! Tell me more.",
+    "Fox: You see, in the ancient forests where I roam, technology was simple yet harmonious with the land. But as humans expanded their reach, their inventions began to reshape the world.",
+    "Character: Like the sprawling cities and bustling factories?",
+    "Fox: Indeed. While these innovations brought convenience and progress, they also altered the balance of nature. Trees fell, rivers diverted, and animals lost their homes.",
+    "Character: It's a reminder of the delicate relationship between humans and the environment.",
+    "Fox: Precisely. Yet, amidst the challenges, there's hope. Science and technology can be harnessed for the greater good, to restore what has been lost and protect what remains.",
+    "Character: So, it's not just about progress, but also about responsibility?",
+    "Fox: Exactly! As stewards of this world, it's our duty to tread lightly, to innovate with mindfulness, and to cherish the wonders of nature for generations to come.",
+    "Character: Thank you for sharing your wisdom, Mr. Fox. I'll remember to embrace both the marvels of technology and the beauty of the natural world.",
+    "Fox: Farewell, young traveler. May your journey be guided by the harmony of science, technology, and society."
+]
 
-// Add event listener for Enter key press
+let currentMessageIndex = 0;
+const dialogueElement = document.getElementById('dialogue');
 
 document.addEventListener("keydown", function(event) {
-    if (event.key === "Enter") {
-        // Calculate distance between character and fox
-        var characterPosition = character.getBoundingClientRect();
-        var foxPosition = document.getElementById("fox").getBoundingClientRect();
-        var distance = Math.sqrt(Math.pow(characterPosition.x - foxPosition.x, 2) + Math.pow(characterPosition.y - foxPosition.y, 2));
-
-        // Define threshold distance for interaction
-        var thresholdDistance = 30; // Adjust this value for your needs
-
-        // Check if character is close to the fox within the threshold distance
-        if (distance < thresholdDistance) {
-            // Check if the fox has been encountered before
-            if (!foxEncountered) {
-                // Set the flag to true to indicate the fox has been encountered
-                foxEncountered = true;
-
-                // Check if dialogue box already exists
-                if (!document.getElementById('dialogueBox')) {
-                    // Create a dialogue box element
-                    const dialogueBox = document.createElement('div');
-                    dialogueBox.id = 'dialogueBox';
-                    dialogueBox.classList.add('dialogue-box');
-
-                    // Append the dialogue box to the game container
-                    document.getElementById('game-container').appendChild(dialogueBox);
-
-                    // Update the content of the dialogue box (optional)
-                    dialogueBox.innerHTML = '<p>Fox encountered!</p>';
-
-                    // Show the dialogue box
-                    dialogueBox.style.display = "block";
-                }
-            }
-        }
+    if (event.key === "e") {
+        currentMessageIndex = (currentMessageIndex + 1) % dialogueMessagesFox.length;
+        dialogueElement.textContent = dialogueMessagesFox[currentMessageIndex];
     }
 });
 
+// Event listener for the "Go Back" button click
+document.getElementById("backButton").addEventListener("click", goBack);
 
-/* BONUS! Dpad functionality for mouse and touch */
-var isPressed = false;
-const removePressedAll = () => {
-    document.querySelectorAll(".dpad-button").forEach(d => {
-        d.classList.remove("pressed")
+    // Event listener to interact with the fox when pressing the "E" key
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "e") {
+        // Show the overlay
+        showOverlay();
+        // You can add more interactions with the fox here if needed
+    }
+    });
+
+
+    // Set up the game loop
+    const step = () => {
+        placeCharacter();
+        window.requestAnimationFrame(() => {
+            step();
+        })
+    }
+    step(); // Kick off the first step
+    
+    /* Direction key state */
+    const directions = {
+        up: "up",
+        down: "down",
+        left: "left",
+        right: "right",
+    }
+    
+    const keys = {
+        38: directions.up,   // Arrow Up
+        87: directions.up,   // W key
+        37: directions.left, // Arrow Left
+        65: directions.left, // A key
+        40: directions.down, // Arrow Down
+        83: directions.down, // S key
+        39: directions.right,// Arrow Right
+        68: directions.right // D key
+    }
+    
+    document.addEventListener("keydown", (e) => {
+        var dir = keys[e.which];
+        if (dir && held_directions.indexOf(dir) === -1) {
+            held_directions.unshift(dir)
+        }
     })
-}
-document.body.addEventListener("mousedown", () => {
-   console.log('mouse is down')
-    isPressed = true;
-})
-document.body.addEventListener("mouseup", () => {
-   console.log('mouse is up')
-    isPressed = false;
-    held_directions = [];
-    removePressedAll();
-})
-const handleDpadPress = (direction, click) => {
-    if (click) {
+    
+    document.addEventListener("keyup", (e) => {
+        var dir = keys[e.which];
+        var index = held_directions.indexOf(dir);
+        if (index > -1) {
+            held_directions.splice(index, 1)
+        }
+    });
+    
+    /* BONUS! Dpad functionality for mouse and touch */
+    var isPressed = false;
+    const removePressedAll = () => {
+        document.querySelectorAll(".dpad-button").forEach(d => {
+            d.classList.remove("pressed")
+        })
+    }
+    document.body.addEventListener("mousedown", () => {
         isPressed = true;
-    }
-    held_directions = (isPressed) ? [direction] : []
-
-    if (isPressed) {
+    })
+    document.body.addEventListener("mouseup", () => {
+        isPressed = false;
+        held_directions = [];
         removePressedAll();
-        document.querySelector(".dpad-"+direction).classList.add("pressed");
+    })
+    const handleDpadPress = (direction, click) => {
+        if (click) {
+            isPressed = true;
+        }
+        held_directions = (isPressed) ? [direction] : []
+    
+        if (isPressed) {
+            removePressedAll();
+            document.querySelector(".dpad-"+direction).classList.add("pressed");
+        }
     }
-}
-//Bind a ton of events for the dpad
-document.querySelector(".dpad-left").addEventListener("touchstart", (e) => handleDpadPress(directions.left, true));
-document.querySelector(".dpad-up").addEventListener("touchstart", (e) => handleDpadPress(directions.up, true));
-document.querySelector(".dpad-right").addEventListener("touchstart", (e) => handleDpadPress(directions.right, true));
-document.querySelector(".dpad-down").addEventListener("touchstart", (e) => handleDpadPress(directions.down, true));
-
-document.querySelector(".dpad-left").addEventListener("mousedown", (e) => handleDpadPress(directions.left, true));
-document.querySelector(".dpad-up").addEventListener("mousedown", (e) => handleDpadPress(directions.up, true));
-document.querySelector(".dpad-right").addEventListener("mousedown", (e) => handleDpadPress(directions.right, true));
-document.querySelector(".dpad-down").addEventListener("mousedown", (e) => handleDpadPress(directions.down, true));
-
-document.querySelector(".dpad-left").addEventListener("mouseover", (e) => handleDpadPress(directions.left));
-document.querySelector(".dpad-up").addEventListener("mouseover", (e) => handleDpadPress(directions.up));
-document.querySelector(".dpad-right").addEventListener("mouseover", (e) => handleDpadPress(directions.right));
-document.querySelector(".dpad-down").addEventListener("mouseover", (e) => handleDpadPress(directions.down));
-
     </script>
-</html>
+    </html>
