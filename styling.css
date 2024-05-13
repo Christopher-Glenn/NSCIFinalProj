@@ -40,6 +40,87 @@
     image-rendering: pixelated;
  }
  
+ .howtoPlay{
+   position: fixed;
+   top: 17%;
+   right: 73%; /* Initial position, starting from the right side of the viewport */
+   bottom: 0;
+   width: 350px;
+   height: 50%;
+   background: black;
+   border-radius: 8px;
+   opacity: 0.85;
+   border: 3px solid white; /* Border color and thickness */
+   animation: slideInRight 0.5s forwards; /* Animation for sliding */
+}
+
+@keyframes slideInRight {
+   from {
+     right: 0px; /* Start from the right side of the viewport */
+   }
+   to {
+     right: 3%; /* Slide to the specified position */
+   }
+ }
+
+ .titleInstruction{
+   position: relative;
+   color: #FFA17E;
+   padding: 20px;
+   font-size: 19px;
+   font-family:'Pixelify Sans', sans-serif;
+   font-weight: 500;
+ }
+
+ .instructions{
+   position: relative;
+   color: white;
+   font-family:'Pixelify Sans', sans-serif;
+   font-size: 16px;
+ }
+
+ .instructions strong{
+   color: #FFA17E;
+ }
+
+ .clouds1 {
+   position: fixed;
+   bottom: 100px;
+   top: 0px;
+   left: 0;
+   right: 0;
+   z-index: -1;
+   animation: moveClouds1 20s linear infinite; /* Adjust duration as needed */
+}
+
+.clouds2 {
+   position: fixed;
+   bottom: 0px;
+   top: 100px;
+   left: 0; /* Start from the left side */
+   right: 100%;
+   z-index: -1;
+   animation: moveClouds2 15s linear infinite; /* Adjust duration as needed */
+}
+
+@keyframes moveClouds1 {
+  0% {
+    transform: translateX(100%); /* Start from the right side */
+  }
+  100% {
+    transform: translateX(-100%); /* Move towards the left */
+  }
+}
+
+@keyframes moveClouds2 {
+  0% {
+    transform: translateX(0%); /* Start from the left side */
+  }
+  100% {
+    transform: translateX(100%); /* Move towards the right */
+  }
+}
+
  #background-landing {
    height: 100%;
    width: 100%;
@@ -221,8 +302,9 @@
    width: 400px;
    height: 50%;
    background: white;
-   border-radius: 25px;
+   border-radius: 20px;
    animation: revealOverlay 0.5s ease forwards; /* Animation for revealing */
+   border: 2px solid black;
 }
 
 @keyframes revealOverlay {
