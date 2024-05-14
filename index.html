@@ -19,18 +19,49 @@
        </div>
         <img id="button-start" src="images/LetsStart.png">
     </div>
+    <audio id="click-sound" src="audio/gameStart.mp3"></audio>
+
+    <script>
+        document.getElementById('button-start').onclick = function() {
+            var audio = document.getElementById('click-sound');
+            audio.play();
+        }
+    </script>
 
 <div id="game-container" style="display: none";>
+    <audio id="bg-music" src="audio/littllerot.mp3" autoplay loop></audio>
   <div class="frame">
     <div class="corner_topleft"></div>
     <div class="corner_topright"></div>
     <div class="corner_bottomleft"></div>
     <div class="corner_bottomright"></div>
-
     
     
     <div class="camera">
+         
        <div class="map pixel-art">
+        
+        <div class="book-parent">
+            <img class="box_sprite" src="images/book.png" id="bookParent">
+          </div>
+
+          <div id="book" class="book hidden">
+            <div class="cover">
+              <h1>Reflection</h1>
+            </div>
+            <div class="page">
+              <p>
+                Across Units 1, 2, and 3, my exploration of Science, Technology, and Society (STS) has been enriching and illuminating. Unit 1 laid the groundwork by delving into the fundamental principles of science and technology, the complexities of the physical and living environments, and the intricacies of human organization. Moving into Unit 2, I journeyed through
+              </p>
+              <p></p>
+            </div>
+            <div class="page">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/1/13/Blue_Fairy_Book-The_Brave_Little_Tailor-1.png" alt="The tailor prepares to squash the flies"/>
+              <p>historical antecedents, witnessing the evolution of scientific thought from ancient times to modern eras each epoch</p>
+              <p> leaving an indelible mark on human civilization. Unit 3 delved into the profound interplay between humanity and its technological creations, exploring themes such as human flourishing.</p>
+            </div>
+          </div> 
+
           <div class="character" facing="down" walking="true">
              <div class="shadow pixel-art"></div>
              <div class="character_spritesheet pixel-art"></div>
@@ -81,6 +112,7 @@
                 <button class="close-units">Close</button>
                 <p class="titleStatement1">Unit 1 INTRODUCTION TO STS</p>
                 <div class="statement1">
+                    <div id="peekabo"></div>
                     <ol>
                         <li><strong> Nature of Science:</strong> Explores the fundamental principles and methodologies of scientific inquiry, including observation, experimentation, and theory-building.</li>
                         <li><strong> Nature of Mathematics:</strong> Discusses the role of mathematics in scientific exploration, emphasizing its use as a language for describing natural phenomena and solving practical problems.</li>
@@ -198,6 +230,9 @@
  </div>
 </div>
 <script>
+    document.getElementById('book').addEventListener('click', function() {
+  this.classList.toggle('open');
+});
     // Add event listener to the start button
     document.getElementById("button-start").addEventListener("click", function() {
         // Hide the landing page
@@ -249,6 +284,18 @@ function yScrollHandler(){
 }
 window.onscroll = yScrollHandler;
 
+// Get the parent element
+var bookParent = document.getElementById('bookParent');
+// Get the book element
+var book = document.getElementById('book');
+
+// Add event listener to the parent element
+bookParent.addEventListener('click', function() {
+  // Toggle the class to show/hide the book
+  book.classList.toggle('hidden');
+});
+
+
 </script> 
 
 </body>
@@ -277,6 +324,7 @@ window.onscroll = yScrollHandler;
         }
     });
     
+
     const placeCharacter = () => {
         var pixelSize = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--pixel-size'));
     
@@ -316,6 +364,10 @@ window.onscroll = yScrollHandler;
     // Define a threshold for interaction (adjust as needed)
     const interactionThreshold = 100; // Adjust this value as needed
     
+    if(distance < interactionThreshold) {
+        speed = 0;
+    }
+
     // Check if the distance is less than the interaction threshold
     if (distance < interactionThreshold) {
         // Show the overlay
