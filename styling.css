@@ -25,6 +25,31 @@
     }
  } */
  
+ h1{
+   font-family: 'Pixelify Sans', sans-serif;
+   position: absolute;
+   top: 0px;
+   left: 70px;
+   font-size: 50px;
+  font-weight: 600;
+  background-image: radial-gradient(#553c9a, #ee4b2b);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+h2{
+   font-family: 'Pixelify Sans', sans-serif;
+   position: absolute;
+   top: 350px;
+   left: 550px;
+   font-size: 30px;
+  font-weight: 600;
+  background-image: linear-gradient(to left, #553c9a, #b393d3);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
  html, body {
     height: 100%;
  }
@@ -121,6 +146,13 @@
   }
 }
 
+.character-landing{
+   position: relative;
+   bottom: 90px;
+   border-radius: 10px;
+   border: 2px solid black;
+}
+
  #background-landing {
    height: 100%;
    width: 100%;
@@ -131,7 +163,7 @@
    height: 83px;
    width: auto;
    top: 445px;
-   left: 530px;
+   left: 560px;
 }
 
 
@@ -337,16 +369,6 @@
   }
 }
 
-.overlay-character{
-   position: relative;
-   top: -100px; /* Adjust the value as needed to move the character up */
-}
-
-.overlay-character .character{
-   top: -278px ;
-   left: 110px;
-}
-
 
 
 .overlay-fox{
@@ -442,6 +464,24 @@
    cursor: default;
 }
 
+.unit3Modal{
+   display: none;
+   position: fixed;
+   top: -50px;
+   left: -525px;
+   right: 0;
+   bottom: 0;
+   width: 380px;
+   height: 100%;
+   background: white;
+   opacity: 20%;
+   border-radius: 5px;
+   animation: revealOverlay 0.5s ease forwards;
+   border: 3px solid #FFA17E;
+   z-index: 20000;
+   cursor: default;
+}
+
 .close-units{
    font-family: 'Pixelify Sans', sans-serif;
    position: fixed;
@@ -463,6 +503,15 @@
 }
 
 .unit1Modal .titleStatement1{
+   position: relative;
+   font-size: 24px;
+   left: 20px;
+   color: #FFA17E;
+   padding: 4px;
+   font-weight: 500;
+}
+
+.unit3Modal .titleStatement3{
    position: relative;
    font-size: 24px;
    left: 20px;
@@ -499,6 +548,13 @@
     max-height: 200px;
 }
 
+.statement3{
+   color: black;
+   font-size: 15px;
+   overflow-y: auto; 
+    max-height: 200px;
+}
+
 div#peekaboo{
    position:fixed;
    bottom:0px;
@@ -516,13 +572,13 @@ div#peekaboo{
    color: white;
 }
 
-.unit3:hover {
-   color: black;
+.unit3{
+   color: white;
 }
 .overlay-character{
    position: absolute;
-   left: 78px;
-   top: 250px;  
+   left: 180px;
+   top: -20px;  
 }
 
 #backButton {
@@ -543,7 +599,7 @@ div#peekaboo{
 .showPlanet{
    font-family: 'Pixelify Sans', sans-serif;
    position: relative;
-   left: 40px;
+   left: 65px;
    font-size: 20px;
    font-weight: 500;
    text-decoration: none;
@@ -551,6 +607,10 @@ div#peekaboo{
    background: none;
    cursor: pointer;
    color: #FFA17E;
+}
+
+.showPlanet:hover{
+   color: red;
 }
 
 .clickBelow{

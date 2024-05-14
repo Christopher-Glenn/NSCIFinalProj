@@ -40,3 +40,7 @@ $(window).load(function(){
     init();
   
   });
+
+  function redirectToIndex() {
+    window.location.href = "index.html";
+}

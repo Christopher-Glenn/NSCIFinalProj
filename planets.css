@@ -3,6 +3,11 @@
   Copyright (c) 2012 Julian Garnier
   Licensed under the MIT license
 */
+@font-face {
+  font-family: 'Pixelify Sans';
+  src: url('fonts/PixelifySans-VariableFont_wght.ttf') format('truetype');
+}
+
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
   border: 0;
   font-size: 100%;
@@ -1397,6 +1402,16 @@ h1 {
 
 #controls {
   transition-delay: 1s; }
+
+  .bbcbutton{
+    position: fixed;
+    font-family:'Pixelify Sans', sans-serif;
+    text-decoration: none;
+   border: none;
+   background: none;
+   z-index: 300;
+   cursor: pointer;
+  }
 
 /* --------------------------------------------------------------------------- images */
 body {

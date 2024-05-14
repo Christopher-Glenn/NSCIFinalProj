@@ -5,17 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nature's Nexus: Exploring the Bonds Between Science and Society</title>
     <link rel="stylesheet" type="text/css" href="styling.css">
-
     <!--Fonts-->
-
 </head>
 <body>
-    
+
     <div class="landing-page">
-        <img id="background-landing" src="images/Purple and Pink Pixel Retro Nostalgia Fever Fandom Game Presentation.png">
+        <h1>Nature's Nexus: Bonds Between Science and Society </h1>
+        <h2>by Christopher Glenn L. Bedis</h2>
+        <img class="character-landing" src="images/character-png.png">
+        <div class="clouds">
+            <img class="clouds1" src="images/clouds1.png">
+            <img class="clouds2" src="images/clouds2.png">
+       </div>
         <img id="button-start" src="images/LetsStart.png">
     </div>
-
 
 <div id="game-container" style="display: none";>
   <div class="frame">
@@ -110,8 +113,19 @@
             </div>
             <div class="unit3">Unit 3
                 <div class="unit3Modal">
-                    <!-- Modal content for Unit 3 -->
-                    <p>This is the content of the modal for Unit 3</p>
+                    <button class="close-units">Close</button>
+                    <p class="titleStatement3">Unit 3 SCIENCE, TECHNOLOGY, SOCIETY, AND THE HUMAN CONDITION</p>
+                    <div class="statement1">
+                        <ul>
+                            <strong> Technology as a Mode of Revealing:</strong> <li> Explores how technology serves as a means to uncover, reveal, and understand aspects of the natural world and human society.</li>
+                            <strong> Technology as Poiesis:</strong> <li> Applicable to Modern Technology?: Examines the concept of poiesis, or creative production, in the context of modern technology and its potential for shaping human existence.</li>
+                            <strong> Questioning as the Piety of Thought:</strong><li> Discusses the importance of questioning and critical thinking in navigating the complexities of science, technology, and society.</li>
+                            <strong> Enframing Way of Revealing in Modern Technology: </strong> <li> Investigates Heidegger's notion of "enframing" and its implications for understanding the role of technology in modern society.</li>
+                            <strong> Human Person Swallowed by Technology:</strong><li>Explores the phenomenon of individuals becoming increasingly immersed in and dependent on technology, potentially leading to a loss of autonomy and agency.</li>
+                            <strong> Art as a Way Out of Enframing: </strong> <li>Considers the role of art as a means of transcending the enframing influence of technology and reconnecting with aspects of human existence that lie beyond its grasp.</li>
+                        </ul>
+                        <br>
+                    </div>
                 </div>
             </div>
         </div>
@@ -253,13 +267,13 @@ window.onscroll = yScrollHandler;
     // Update the speed if Shift key is pressed
     document.addEventListener("keydown", (e) => {
         if (e.shiftKey) {
-            speed = 3; // Change speed to 2 if Shift key is pressed
+            speed = 2; // Change speed to 2 if Shift key is pressed
         }
     });
     
     document.addEventListener("keyup", (e) => {
         if (e.key === "Shift") {
-            speed = 2; // Reset speed to 1 when Shift key is released
+            speed = 1; // Reset speed to 1 when Shift key is released
         }
     });
     
