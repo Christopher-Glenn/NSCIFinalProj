@@ -424,6 +424,24 @@
    cursor: default;
 }
 
+.unit2Modal{
+   display: none;
+   position: fixed;
+   top: -50px;
+   left: -525px;
+   right: 0;
+   bottom: 0;
+   width: 380px;
+   height: 100%;
+   background: white;
+   opacity: 20%;
+   border-radius: 5px;
+   animation: revealOverlay 0.5s ease forwards;
+   border: 3px solid #FFA17E;
+   z-index: 20000;
+   cursor: default;
+}
+
 .close-units{
    font-family: 'Pixelify Sans', sans-serif;
    position: fixed;
@@ -453,6 +471,16 @@
    font-weight: 500;
 }
 
+.unit2Modal .titleStatement2{
+   position: relative;
+   font-size: 24px;
+   left: 20px;
+   color: #FFA17E;
+   padding: 4px;
+   font-weight: 500;
+}
+
+
 .statement1{
    color: black;
    font-size: 15px;
@@ -464,8 +492,11 @@
  color: white;
 }
 
-.unit1:hover{
+.statement2{
    color: black;
+   font-size: 15px;
+   overflow-y: auto; 
+    max-height: 200px;
 }
 
 div#peekaboo{
@@ -481,9 +512,8 @@ div#peekaboo{
    font-size:28px;
 }
 
-
-.unit2:hover {
-   color: black;
+.unit2{
+   color: white;
 }
 
 .unit3:hover {
@@ -508,7 +538,23 @@ div#peekaboo{
    cursor: pointer;
    color: white;
    z-index: 1001;
+}
 
+.showPlanet{
+   font-family: 'Pixelify Sans', sans-serif;
+   position: relative;
+   left: 40px;
+   font-size: 20px;
+   font-weight: 500;
+   text-decoration: none;
+   border: none;
+   background: none;
+   cursor: pointer;
+   color: #FFA17E;
+}
+
+.clickBelow{
+   color: red;
 }
 
 #backButton:hover {

@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nature's Nexus: Exploring the Bonds Between Science and Society</title>
     <link rel="stylesheet" type="text/css" href="styling.css">
+
     <!--Fonts-->
+
 </head>
 <body>
     
@@ -89,8 +91,21 @@
             </div>
             <div class="unit2">Unit 2
                 <div class="unit2Modal">
-                    <!-- Modal content for Unit 2 -->
-                    <p>This is the content of the modal for Unit 2</p>
+                    <button class="close-units">Close</button>
+                    <p class="titleStatement2">Unit 2 GENERAL CONCEPTS IN SCIENCE, TECHNOLOGY, AND SOCIETY</p>
+                    <div class="statement1">
+                        <ul>
+                            <strong> 2.1 Ancient Times:</strong> <li> The origins of scientific inquiry and technological innovation in ancient civilizations such as Mesopotamia, Egypt, and Greece.</li>
+                            <strong> 2.1 Medieval/Middle Ages:</strong> <li> Discusses the role of mathematics in scientific exploration, emphasizing its use as a language for describing natural phenomena and solving practical problems.</li>
+                            <strong> Nature of Technology:</strong><li> Examines the definition and characteristics of technology, highlighting its role as a tool for solving problems and enhancing human capabilities.</li>
+                            <strong> The Physical Setting: </strong> <li> Investigates the physical environment in which science and technology operate, including the Earth's geology, atmosphere, and climate.</li>
+                            <strong> The Living Environment:</strong><li>Explores the interactions between living organisms and their environments, focusing on ecosystems, biodiversity, and ecological relationships.</li>
+                            <strong> The Human Organization: </strong> <li>Studies the social structures and institutions that shape human interactions with science, technology, and the environment, including governance, economics, and cultural beliefs.</li>
+                            <strong class="clickBelow">Click Below to Observe Copernican Revolution </strong>
+                        </ul>
+                        <br>
+                        <button class="showPlanet" onclick="redirectToPlanets()">Copernican Revolution</button>
+                    </div>
                 </div>
             </div>
             <div class="unit3">Unit 3
@@ -203,6 +218,10 @@ document.addEventListener('click', function(event) {
     }
 });
 
+function redirectToPlanets() {
+    window.location.href = "planets.html";
+}
+
 function yScrollHandler(){
     var win = document.getElementById("peekaboo");
     if((window.pageYOffset + window.innerHeight) >= document.body.offsetHeight){
@@ -234,13 +253,13 @@ window.onscroll = yScrollHandler;
     // Update the speed if Shift key is pressed
     document.addEventListener("keydown", (e) => {
         if (e.shiftKey) {
-            speed = 2; // Change speed to 2 if Shift key is pressed
+            speed = 3; // Change speed to 2 if Shift key is pressed
         }
     });
     
     document.addEventListener("keyup", (e) => {
         if (e.key === "Shift") {
-            speed = 1; // Reset speed to 1 when Shift key is released
+            speed = 2; // Reset speed to 1 when Shift key is released
         }
     });
     
