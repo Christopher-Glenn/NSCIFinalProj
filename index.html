@@ -493,11 +493,8 @@ document.getElementById("backButton").addEventListener("click", goBack);
         }
     }
     </script>
-    <script type="module">
-        import { dev } from '$app/environment';
-        import { inject } from '@vercel/analytics';
- 
-        inject({ mode: dev ? 'development' : 'production' });
-
-    </script>
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+      </script>
+      <script defer src="/_vercel/insights/script.js"></script>
     </html>
